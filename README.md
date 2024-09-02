@@ -10,13 +10,13 @@ A simple and customizable splash screen package for React Native applications. T
 To install the package, run:
 
 ```bash
-npm install @nucleus/react-native-splash-screen
+npm install @abeman/react-native-splash-screen
 ```
 
 or
 
 ```bash
-yarn add @nucleus/react-native-splash-screen
+yarn add @abeman/react-native-splash-screen
 ```
 
 ## Setup

@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "@nucleus/react-native-splash-screen": ["./src/index"]
+      "@abeman/react-native-splash-screen": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

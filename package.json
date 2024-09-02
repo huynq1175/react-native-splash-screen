@@ -1,5 +1,5 @@
 {
-  "name": "@nucleus/react-native-splash-screen",
+  "name": "@abeman/react-native-splash-screen",
   "version": "1.0.0",
   "description": "Splash screen",
   "source": "./src/index.tsx",

@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text, Button } from 'react-native';
 import { useEffect, useRef } from 'react';
-import SplashScreen from '@nucleus/react-native-splash-screen';
+import SplashScreen from '@abeman/react-native-splash-screen';
 
 export default function App() {
   const showtimer = useRef<NodeJS.Timeout>();
