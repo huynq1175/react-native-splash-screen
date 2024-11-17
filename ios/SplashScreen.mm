@@ -12,12 +12,12 @@ RCT_EXPORT_MODULE()
 // Don't compile this code when we build for the old architecture.
 #ifdef RCT_NEW_ARCH_ENABLED
 
-- (void)hide { 
+- (void)hide {
     [SplashScreen hide];
 }
 
 
-- (void)show { 
+- (void)show {
     [SplashScreen show];
 }
 

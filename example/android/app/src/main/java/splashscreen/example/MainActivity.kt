@@ -8,7 +8,6 @@ import com.facebook.react.defaults.DefaultReactActivityDelegate
 import com.splashscreen.SplashScreen
 
 class MainActivity : ReactActivity() {
-
   override fun onCreate(savedInstanceState: Bundle?) {
     // Gọi phương thức tĩnh show từ SplashScreenModule
     SplashScreen.show(this, true)
