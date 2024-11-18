@@ -1,6 +1,6 @@
 {
   "name": "@abeman/react-native-splash-screen",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Splash screen",
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
@@ -24,7 +24,7 @@
     "ios",
     "cpp",
     "*.podspec",
-    "react-native.config.json",
+    "react-native.config.js",
     "!ios/build",
     "!android/build",
     "!android/gradle",
@@ -81,7 +81,7 @@
     "prettier": "^3.0.3",
     "react": "18.3.1",
     "react-native": "0.76.2",
-    "react-native-builder-bob": "^0.32.0",
+    "react-native-builder-bob": "0.32.1",
     "release-it": "^17.10.0",
     "turbo": "^1.10.7",
     "typescript": "^5.2.2"
@@ -122,7 +122,7 @@
     },
     "plugins": {
       "@release-it/conventional-changelog": {
-        "preset": "angular"
+        "preset": "conventionalcommits"
       }
     }
   },
