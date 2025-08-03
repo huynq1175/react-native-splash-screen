@@ -1,12 +1,35 @@
-const SplashScreenModule = require('./NativeSplashScreen').default;
+import SplashScreenModule from './NativeSplashScreen';
+import type { SplashScreenConfig } from './NativeSplashScreen';
 
-const SplashScreen = {
-  show() {
-    SplashScreenModule.show();
+export type { SplashScreenConfig };
+
+interface ISplashScreen {
+  show(): void;
+  show(config: SplashScreenConfig): void;
+  hide(): void;
+  hide(config: SplashScreenConfig): void;
+  releaseMemory(): void;
+}
+
+const SplashScreen: ISplashScreen = {
+  show(config?: SplashScreenConfig) {
+    if (config) {
+      SplashScreenModule.showWithConfig(config);
+    } else {
+      SplashScreenModule.show();
+    }
   },
 
-  hide() {
-    SplashScreenModule.hide();
+  hide(config?: SplashScreenConfig) {
+    if (config) {
+      SplashScreenModule.hideWithConfig(config);
+    } else {
+      SplashScreenModule.hide();
+    }
+  },
+
+  releaseMemory() {
+    SplashScreenModule.releaseMemory();
   },
 };
 

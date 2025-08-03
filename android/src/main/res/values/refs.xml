@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-  <item type="layout" name="splash_screen">
-    @layout/splash_screen
-  </item>
-</resources>

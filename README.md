@@ -1,123 +1,233 @@
+# react-native-splash-screen
 
-# React Native Splash Screen
+A performant splash screen for React Native apps with smooth transitions and memory optimization.
 
-A simple and customizable splash screen package for React Native applications. This package allows you to show and hide a splash screen with ease, supporting both fullscreen and non-fullscreen modes.
-> [!IMPORTANT]
-> New Architecture required.
+## Features
+
+- 🚀 **Smooth Transitions** - Configurable fade animations
+- 🎯 **Prevent White Flash** - Seamless transition from splash to app
+- 💾 **Memory Optimization** - Built-in memory management
+- 🔧 **Highly Configurable** - Customize duration, animations, and behavior
+- 📱 **Cross Platform** - iOS and Android support
+- 🏗️ **New Architecture** - TurboModule support
 
 ## Installation
 
-To install the package, run:
-
-```bash
+```sh
 npm install @abeman/react-native-splash-screen
-```
-
-or
-
-```bash
+# or
 yarn add @abeman/react-native-splash-screen
 ```
 
-## Setup
+### iOS Setup
 
-### Android
+1. **Run pod install**
+```sh
+cd ios && pod install
+```
 
+2. **Configure in AppDelegate** (Swift)
+```swift
+import SplashScreen
 
-1. **Create a layout for your splash screen:**
+@main
+class AppDelegate: UIResponder, UIApplicationDelegate {
+  func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+  ) -> Bool {
+    // Show splash screen on app launch
+    SplashScreen.show()
+    return true
+  }
+}
+```
 
-   Create a `splash_screen.xml` layout file in `res/layout`:
+### Android Setup
 
-   ```xml
-   <!-- res/layout/splash_screen.xml -->
-   <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:orientation="vertical"
-       android:background="@drawable/splash_background"
-       android:gravity="center">
+1. **Add splash screen drawable** at `android/app/src/main/res/drawable/launch_screen.xml`:
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+  <item android:drawable="@color/splash_background" />
+  <item>
+    <bitmap
+      android:src="@mipmap/ic_launcher"
+      android:gravity="center" />
+  </item>
+</layer-list>
+```
 
-       <ImageView
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:layout_centerInParent="true"
-          android:scaleType="centerCrop"
-          android:contentDescription="@string/app_name"
-          android:src="@drawable/splash_background" />
-   </LinearLayout>
-   ```
+2. **Define colors** at `android/app/src/main/res/values/colors.xml`:
+```xml
+<resources>
+  <color name="splash_background">#FFFFFF</color>
+</resources>
+```
 
-2. **Create splash screen themes:**
+3. **Update theme** in `android/app/src/main/res/values/styles.xml`:
+```xml
+<style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+  <item name="android:windowBackground">@drawable/launch_screen</item>
+  <item name="android:windowDisablePreview">false</item>
+</style>
+```
 
-   Add splash screen themes to `res/values/styles.xml`:
+4. **Configure in MainActivity** (Kotlin):
+```kotlin
+import com.splashscreen.SplashScreenModule
 
-   ```xml
-   <!-- res/values/styles.xml -->
-   <resources>
-       <style name="SplashScreen_SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
-           <item name="android:windowBackground">@drawable/splash_background</item>
-       </style>
-
-       <style name="SplashScreen_Fullscreen" parent="Theme.AppCompat.Light.NoActionBar">
-           <item name="android:windowBackground">@drawable/splash_background</item>
-           <item name="android:windowFullscreen">true</item>
-       </style>
-   </resources>
-   ```
-
-4. **Update `MainActivity.kt`:**
-
-   In your `MainActivity.kt`, call `SplashScreen.show(this)` in the `onCreate` method:
-
-   ```kotlin
-   package com.example
-
-   import android.os.Bundle
-   import com.facebook.react.ReactActivity
-   import org.devio.rn.splashscreen.SplashScreen
-
-   class MainActivity : ReactActivity() {
-
-       override fun onCreate(savedInstanceState: Bundle?) {
-           SplashScreen.show(this, true)  // Show the splash screen when the activity is created
-           super.onCreate(savedInstanceState)
-       }
-
-       override fun getMainComponentName(): String? {
-           return "YourAppName"
-       }
-   }
-   ```
+class MainActivity : ReactActivity() {
+  override fun onCreate(savedInstanceState: Bundle?) {
+    SplashScreenModule.showSplash(this)
+    super.onCreate(savedInstanceState)
+  }
+}
+```
 
 ## Usage
 
-To show or hide the splash screen from JavaScript, use the following methods:
+### Basic Usage
 
-### Show Splash Screen
+```typescript
+import SplashScreen from '@abeman/react-native-splash-screen';
 
-```javascript
-import { NativeModules } from 'react-native';
-
-const { SplashScreen } = NativeModules;
-
-// Show the splash screen
-SplashScreen.show();
+// In your app's entry point (App.tsx)
+useEffect(() => {
+  // Hide splash screen after app loads
+  SplashScreen.hide();
+}, []);
 ```
 
-### Hide Splash Screen
+### Advanced Usage
 
-```javascript
-import { NativeModules } from 'react-native';
+```typescript
+import SplashScreen from '@abeman/react-native-splash-screen';
 
-const { SplashScreen } = NativeModules;
+// Show splash screen with configuration
+SplashScreen.show({
+  preventFlash: true
+});
 
-// Hide the splash screen
-SplashScreen.hide();
+// Hide with smooth fade animation
+SplashScreen.hide({
+  fade: true,
+  duration: 0.5,      // seconds
+  preventFlash: true
+});
+
+// Release memory when needed
+SplashScreen.releaseMemory();
 ```
 
-### Changing the Splash Screen Theme
+## API Reference
 
-You can customize the splash screen theme by editing the themes defined in `styles.xml`.
+### Methods
+
+#### `show(config?: SplashScreenConfig)`
+Shows the splash screen.
+
+**Parameters:**
+- `config` (optional):
+  - `preventFlash`: boolean - Prevent white flash (default: true)
+
+#### `hide(config?: SplashScreenConfig)`
+Hides the splash screen.
+
+**Parameters:**
+- `config` (optional):
+  - `fade`: boolean - Enable fade animation (default: true)
+  - `duration`: number - Animation duration in seconds (default: 0.3)
+  - `preventFlash`: boolean - Prevent white flash during transition
+
+#### `releaseMemory()`
+Releases cached resources to free up memory.
+
+### TypeScript Support
+
+```typescript
+import SplashScreen, { SplashScreenConfig } from '@abeman/react-native-splash-screen';
+
+const config: SplashScreenConfig = {
+  fade: true,
+  duration: 0.5,
+  preventFlash: true
+};
+
+SplashScreen.hide(config);
+```
+
+## Example
+
+```typescript
+import React, { useEffect, useState } from 'react';
+import { View, Text, ActivityIndicator } from 'react-native';
+import SplashScreen from '@abeman/react-native-splash-screen';
+
+export default function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    loadAppData();
+  }, []);
+
+  const loadAppData = async () => {
+    try {
+      // Load your app data, authenticate user, etc.
+      await fetchUserData();
+      await loadAppResources();
+
+      setIsLoading(false);
+
+      // Hide splash screen with smooth transition
+      SplashScreen.hide({
+        fade: true,
+        duration: 0.5,
+        preventFlash: true
+      });
+    } catch (error) {
+      // Handle error
+      SplashScreen.hide();
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <ActivityIndicator size="large" />
+      </View>
+  );
+  }
+
+  return (
+    <View style={{ flex: 1 }}>
+  <Text>Welcome to the app!</Text>
+  </View>
+);
+}
+```
+
+## Performance Tips
+
+1. **Preload Resources**: Call `SplashScreen.show()` as early as possible in your native code
+2. **Optimize Images**: Use appropriately sized images for splash screen
+3. **Memory Management**: Call `releaseMemory()` after hiding splash screen in memory-constrained situations
+4. **Prevent Flash**: Always use `preventFlash: true` for seamless transitions
+
+## Troubleshooting
+
+### White flash on Android
+Make sure you've set the `windowBackground` in your app theme and use `preventFlash: true` when hiding.
+
+### Splash screen not showing on iOS
+Ensure you're calling `SplashScreen.show()` in `didFinishLaunchingWithOptions` before any other setup.
+
+### TypeScript errors
+Make sure to import types: `import { SplashScreenConfig } from '@abeman/react-native-splash-screen'`
+
+## Contributing
+
+See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
 
 ## License
 
@@ -125,6 +235,4 @@ MIT
 
 ---
 
-**Author:** HuyNQ
-
-**GitHub:** Huĩ <huy.nguyen@jmango360.com> (https://github.com/huynqjmango360)
+Made with [create-react-native-library](https://github.com/callstack/react-native-builder-bob)

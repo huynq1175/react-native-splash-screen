@@ -5,14 +5,9 @@ import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnabled
 import com.facebook.react.defaults.DefaultReactActivityDelegate
-import com.splashscreen.SplashScreen
+import com.splashscreen.SplashScreenModule
 
 class MainActivity : ReactActivity() {
-  override fun onCreate(savedInstanceState: Bundle?) {
-    // Gọi phương thức tĩnh show từ SplashScreenModule
-    SplashScreen.show(this, true)
-    super.onCreate(savedInstanceState)
-  }
 
   /**
    * Returns the name of the main component registered from JavaScript. This is used to schedule
@@ -26,4 +21,10 @@ class MainActivity : ReactActivity() {
    */
   override fun createReactActivityDelegate(): ReactActivityDelegate =
       DefaultReactActivityDelegate(this, mainComponentName, fabricEnabled)
+      
+  override fun onCreate(savedInstanceState: Bundle?) {
+    // Show splash screen before super.onCreate
+    SplashScreenModule.showSplash(this)
+    super.onCreate(savedInstanceState)
+  }
 }
